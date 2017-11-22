@@ -25,11 +25,10 @@ object BuildSettings {
     organization          :=  "com.snowplowanalytics",
     version               :=  "0.6.0",
     description           :=  "Set of Abstract Syntax Trees for various DDL and Schema formats",
-    scalaVersion          :=  "2.10.6",
-    crossScalaVersions    :=  Seq("2.10.6", "2.11.8"),
+    scalaVersion          :=  "2.12.4",
+    crossScalaVersions    :=  Seq("2.11.8", "2.12.4"),
     scalacOptions         :=  Seq("-deprecation", "-encoding", "utf8",
-                                  "-unchecked", "-feature",
-                                  "-target:jvm-1.7"),
+                                  "-unchecked", "-feature"),
     scalacOptions in Test :=  Seq("-Yrangepos")
   )
 

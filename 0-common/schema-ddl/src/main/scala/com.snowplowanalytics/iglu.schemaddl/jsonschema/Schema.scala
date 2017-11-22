@@ -59,25 +59,6 @@ case class Schema(
   private[iglu] val allProperties = List(multipleOf, minimum, maximum, maxLength, minLength,
     pattern, format, items, additionalItems, minItems, maxItems, properties,
     additionalProperties, required, patternProperties, `type`, enum, oneOf)
-
-  /**
-   * Concise representation of Schema object
-   */
-  override def toString: String = {
-    val props = allProperties.flatten.map { p =>
-      s"${p.keyName} = ${p.toString}"
-    }
-
-    s"Schema(${props.mkString(", ")})"
-  }
-
-  /**
-   * Check if this Schema is all-permissive `{}` (doesn't contain any rules)
-   *
-   * @return true if Schema is empty
-   */
-  def isEmpty: Boolean =
-    allProperties.flatten.isEmpty
 }
 
 object Schema {
