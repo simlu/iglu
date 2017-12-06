@@ -126,11 +126,17 @@ class SanityLinterSpec extends Specification { def is = s2"""
     SanityLinter.lint(schema, SanityLinter.SecondLevel) must beEqualTo(
       Failure(NonEmptyList(
         "String Schema doesn't contain maxLength nor enum properties nor appropriate format",
+        "String Schema doesn't begin with type object",
         "Numeric Schema doesn't contain minimum and maximum properties",
+        "String Schema doesn't begin with type object",
         "String Schema doesn't contain maxLength nor enum properties nor appropriate format",
+        "String Schema doesn't begin with type object",
         "String Schema doesn't contain maxLength nor enum properties nor appropriate format",
+        "String Schema doesn't begin with type object",
         "String Schema doesn't contain maxLength nor enum properties nor appropriate format",
-        "Numeric Schema doesn't contain minimum and maximum properties"
+        "String Schema doesn't begin with type object",
+        "Numeric Schema doesn't contain minimum and maximum properties",
+        "String Schema doesn't begin with type object"
       ))
     )
   }
@@ -174,6 +180,37 @@ class SanityLinterSpec extends Specification { def is = s2"""
         "Properties [minimum] require number, integer or absent type"
       ))
     )
+  }
 
+  def e6 = {
+    val schema = Schema.parse(parse(
+      """
+        |{
+        |    "type": "array",
+        |	   "items": {
+        |        "type": "object",
+        |		     "properties": {
+        |			       "schema": {
+        |				         "type": "string",
+        |				         "pattern": "^iglu:[a-zA-Z0-9-_.]+/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/[0-9]+-[0-9]+-[0-9]+$"
+        |			       },
+        |			       "data": {}
+        |		      },
+        |		  "required": ["schema", "data"],
+        |		  "additionalProperties": false
+        |	    }
+        |}
+      """.stripMargin
+    )).get
+
+
+    SanityLinter.lint(schema, SanityLinter.SecondLevel) must beEqualTo(
+      Failure(NonEmptyList(
+        "String Schema doesn't begin with type object",
+        "String Schema doesn't contain maxLength nor enum properties nor appropriate format",
+        "String Schema doesn't begin with type object",
+        "String Schema doesn't begin with type object"
+      ))
+    )
   }
 }

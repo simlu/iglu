@@ -287,6 +287,17 @@ object SanityLinter {
     }
   }
 
+  /**
+    * Check that whether schema has type `object` or not
+    */
+  val lintType: Linter = (schema: Schema) => {
+    if (schema.withType(Object)) {
+      propertySuccess
+    } else {
+      "String Schema doesn't begin with type object".failure
+    }
+  }
+
   trait SeverityLevel {
     def linters: List[Linter]
   }
@@ -303,7 +314,7 @@ object SanityLinter {
   }
 
   case object SecondLevel extends SeverityLevel {
-    val linters = FirstLevel.linters ++ List(lintMinMaxPresent, lintMaxLength)
+    val linters = FirstLevel.linters ++ List(lintMinMaxPresent, lintMaxLength, lintType)
   }
 }
 
